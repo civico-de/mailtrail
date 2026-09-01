@@ -1,0 +1,18 @@
+$schema: https://raw.githubusercontent.com/jfilter/civikitchen/main/packages/civikitchen-scenario-schema/scenario.schema.json
+version: 1
+policy:
+  license: Proprietary
+  npm_license: UNLICENSED
+  copyright: 'civico GmbH'
+
+  # Measured 2026-09-01 (ckcoverage, dev stack): 88.37% (38/43 statements).
+  # Uncovered: the listener's catch branch and non-scalar param fallbacks.
+  # Floor is measured-1; raise as coverage grows, never lower to make a red
+  # build green.
+  coverage:
+    minimum: 87
+
+  # The one business hook (postEmailSend) is a scan class; mailtrail.php
+  # carries only the civix lifecycle delegates.
+  hook_style: listener
+  renovate_preset: github>civico-de/renovate

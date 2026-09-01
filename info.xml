@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<extension key="mailtrail" type="module">
+  <file>mailtrail</file>
+  <name>Mail Trail</name>
+  <description>Records every e-mail CiviCRM sends to a contact as an Email activity with subject and plain-text body, tagged with the message template it came from.</description>
+  <license>Proprietary</license>
+  <authors>
+    <author>
+      <name>Johannes Filter</name>
+      <email>hi@jfilter.de</email>
+      <role>Maintainer</role>
+    </author>
+  </authors>
+  <urls>
+    <url desc="Main Extension Page">https://github.com/civico-de/mailtrail</url>
+    <url desc="Documentation">https://github.com/civico-de/mailtrail</url>
+    <url desc="Support">https://github.com/civico-de/mailtrail/issues</url>
+  </urls>
+  <releaseDate>2026-09-01</releaseDate>
+  <version>0.1.0</version>
+  <develStage>alpha</develStage>
+  <compatibility mode="semver">
+    <ver>6.15</ver>
+  </compatibility>
+  <php_compatibility mode="list">
+    <ver>8.3</ver>
+    <ver>8.4</ver>
+  </php_compatibility>
+  <classloader>
+    <psr0 prefix="CRM_" path="."/>
+    <psr4 prefix="Civi\" path="Civi"/>
+  </classloader>
+  <civix>
+    <namespace>CRM/Mailtrail</namespace>
+    <format>25.10.2</format>
+  </civix>
+  <mixins>
+    <mixin>mgd-php@2.0.0</mixin>
+    <mixin>scan-classes@1.0.0</mixin>
+  </mixins>
+</extension>
