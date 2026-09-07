@@ -19,9 +19,12 @@ require_once $coreDir . '/api/api.php';
 // Settings-defined runtime constant; phpstan only needs it to exist.
 defined('CIVICRM_UF_BASEURL') || define('CIVICRM_UF_BASEURL', 'http://localhost');
 
-// Required extensions are off core's classloader path: autoload the civix
-// layout of each one present under the ext dir (keyed by extension key).
-// A missing one is only noted so phpstan reports "unknown class" honestly.
+// Required extensions live off core's classloader path. Each one mounted or
+// downloaded under the ext dir (named by its key, as the images do) gets the
+// civix layout autoloaded: CRM_* by underscore, Civi\* PSR-4, api_* by
+// underscore, plus its own vendor/. A required key with no directory is only
+// noted — analysis of code that never touches it is still complete, and code
+// that does gets phpstan's honest "unknown class".
 $ckExtDir = getenv('CK_EXT_DIR') ?: '/var/www/html/ext';
 libxml_use_internal_errors(use_errors: TRUE);
 $ckInfo = simplexml_load_file(__DIR__ . '/info.xml');
