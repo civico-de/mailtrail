@@ -45,8 +45,8 @@ class RecorderHeadlessTest extends TestCase implements HeadlessInterface, Transa
     static::assertSame('Trail Test', $acts[0]['subject']);
     static::assertSame("Hallo Trail,<br />\nalles klar.", $acts[0]['details']);
     static::assertTrue((bool) $acts[0]['mailtrail.recorded']);
-    static::assertSame($templateId, (int) $acts[0]['mailtrail.template_id']);
-    static::assertSame(4711, (int) $acts[0]['source_record_id']);
+    static::assertSame($templateId, self::int($acts[0]['mailtrail.template_id']));
+    static::assertSame(4711, self::int($acts[0]['source_record_id']));
     static::assertSame('Completed', $acts[0]['status_id:name']);
 
     $yesterday = date('Y-m-d H:i:s', strtotime('-1 day'));
@@ -60,8 +60,8 @@ class RecorderHeadlessTest extends TestCase implements HeadlessInterface, Transa
     Recorder::record(['contactId' => $contactId, 'subject' => 'Nur HTML', 'html' => '<p>Hallo <b>Welt</b></p>']);
     $acts = $this->activities($contactId);
     static::assertCount(1, $acts);
-    static::assertStringNotContainsString('<b>', (string) $acts[0]['details']);
-    static::assertStringContainsString('Hallo', (string) $acts[0]['details']);
+    static::assertStringNotContainsString('<b>', self::str($acts[0]['details']));
+    static::assertStringContainsString('Hallo', self::str($acts[0]['details']));
     static::assertTrue((bool) $acts[0]['mailtrail.recorded']);
     static::assertNull($acts[0]['mailtrail.template_id']);
   }
@@ -89,7 +89,7 @@ class RecorderHeadlessTest extends TestCase implements HeadlessInterface, Transa
       ->addValue('last_name', 'Tester')
       ->execute()
       ->first();
-    return (int) ($row['id'] ?? 0);
+    return self::int($row['id'] ?? 0);
   }
 
   private function template(string $title, string $text): int {
@@ -101,7 +101,7 @@ class RecorderHeadlessTest extends TestCase implements HeadlessInterface, Transa
       ->addValue('is_active', value: TRUE)
       ->execute()
       ->first();
-    return (int) ($row['id'] ?? 0);
+    return self::int($row['id'] ?? 0);
   }
 
   /**
@@ -123,6 +123,17 @@ class RecorderHeadlessTest extends TestCase implements HeadlessInterface, Transa
       ->execute()
       ->getArrayCopy();
     return $rows;
+  }
+
+  /** Narrow an APIv4 value before casting; the API returns ids as int or numeric string. */
+  private static function int(mixed $value): int {
+    static::assertIsNumeric($value);
+    return (int) $value;
+  }
+
+  private static function str(mixed $value): string {
+    static::assertIsString($value);
+    return $value;
   }
 
 }
