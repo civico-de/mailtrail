@@ -5,10 +5,8 @@ policy:
   npm_license: UNLICENSED
   copyright: 'civico GmbH'
 
-  # Measured 2026-09-01 (ckcoverage, dev stack): 88.37% (38/43 statements).
-  # Uncovered: the listener's catch branch and non-scalar param fallbacks.
-  # Floor is measured-1; raise as coverage grows, never lower to make a red
-  # build green.
+  # Floor = measured value (ckcoverage, 88 %) minus one; uncovered are the
+  # listener's catch branch and non-scalar param fallbacks. Raise, never lower.
   coverage:
     minimum: 87
 
