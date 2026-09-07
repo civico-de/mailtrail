@@ -13,8 +13,9 @@ final class MailParams {
   /**
    * @param array<mixed> $params
    */
-  public function __construct(private array $params) {
-  }
+  public function __construct(
+    private array $params,
+  ) {}
 
   public function int(string $key): int {
     return self::intOf($this->params[$key] ?? NULL);
