@@ -109,7 +109,7 @@ class RecorderHeadlessTest extends TestCase implements HeadlessInterface, Transa
    */
   private function activities(int $contactId): array {
     /** @var list<array<string, mixed>> $rows */
-    $rows = \Civi\Api4\Activity::get(checkPermissions: FALSE)
+    return \Civi\Api4\Activity::get(checkPermissions: FALSE)
       ->addSelect(
         'subject',
         'details',
@@ -122,10 +122,10 @@ class RecorderHeadlessTest extends TestCase implements HeadlessInterface, Transa
       ->addWhere('target_contact_id', 'CONTAINS', $contactId)
       ->execute()
       ->getArrayCopy();
-    return $rows;
   }
 
-  /** Narrow an APIv4 value before casting; the API returns ids as int or numeric string. */
+  /**
+   * Narrow an APIv4 value before casting; the API returns ids as int or numeric string. */
   private static function int(mixed $value): int {
     static::assertIsNumeric($value);
     return (int) $value;
