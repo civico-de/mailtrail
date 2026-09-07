@@ -23,35 +23,23 @@ class Recorder {
    * @return int Activity id, 0 when nothing was recorded.
    */
   public static function record(array $params): int {
-    $tokenContext = is_array($params['tokenContext'] ?? NULL) ? $params['tokenContext'] : [];
-    $contactId = self::intOf($params['contactId'] ?? NULL) ?: self::intOf($tokenContext['contactId'] ?? NULL);
-    if ($contactId <= 0 || self::stringOf($params['groupName'] ?? NULL) === self::CORE_ACTIVITY_SENDER) {
+    $mail = new MailParams($params);
+    $contactId = self::contactId($mail);
+    if ($contactId <= 0 || $mail->string('groupName') === self::CORE_ACTIVITY_SENDER) {
       return 0;
-    }
-    $text = trim(self::stringOf($params['text'] ?? NULL));
-    $html = self::stringOf($params['html'] ?? NULL);
-    if ($text === '' && $html !== '') {
-      $text = trim(\CRM_Utils_String::htmlToText($html));
     }
     $create = \Civi\Api4\Activity::create(checkPermissions: FALSE)
       ->addValue('activity_type_id:name', 'Email')
       ->addValue('status_id:name', 'Completed')
-      ->addValue('subject', self::stringOf($params['subject'] ?? NULL))
-      ->addValue('details', nl2br(htmlspecialchars($text)))
+      ->addValue('subject', $mail->string('subject'))
+      ->addValue('details', nl2br(htmlspecialchars(self::plainText($mail))))
       ->addValue('source_contact_id', \CRM_Core_Session::getLoggedInContactID() ?: $contactId)
       ->addValue('target_contact_id', [$contactId])
       ->addValue('activity_date_time', date('Y-m-d H:i:s'))
       ->addValue('mailtrail.recorded', value: TRUE);
-    $templateId = self::intOf($params['messageTemplateID'] ?? NULL);
-    if ($templateId > 0) {
-      $create->addValue('mailtrail.template_id', $templateId);
-    }
-    $contributionId = self::intOf($tokenContext['contributionId'] ?? NULL);
-    if ($contributionId > 0) {
-      $create->addValue('source_record_id', $contributionId);
-    }
+    self::addOptionalReferences($create, $mail);
     $row = $create->execute()->first();
-    return self::intOf($row['id'] ?? NULL);
+    return (new MailParams(is_array($row) ? $row : []))->int('id');
   }
 
   /**
@@ -70,14 +58,34 @@ class Recorder {
   }
 
   /**
-   * Mail params are untyped; a non-scalar value counts as absent.
+   * Top-level contactId, else the one from the token context.
    */
-  private static function intOf(mixed $value): int {
-    return is_int($value) || is_float($value) || is_string($value) && is_numeric($value) ? (int) $value : 0;
+  private static function contactId(MailParams $mail): int {
+    $contactId = $mail->int('contactId');
+    return $contactId > 0 ? $contactId : $mail->tokenContext()->int('contactId');
   }
 
-  private static function stringOf(mixed $value): string {
-    return is_scalar($value) ? (string) $value : '';
+  /**
+   * The text part, or the HTML part converted when the mail has no text.
+   */
+  private static function plainText(MailParams $mail): string {
+    $text = trim($mail->string('text'));
+    $html = $mail->string('html');
+    if ($text === '' && $html !== '') {
+      $text = trim(\CRM_Utils_String::htmlToText($html));
+    }
+    return $text;
+  }
+
+  private static function addOptionalReferences(\Civi\Api4\Generic\DAOCreateAction $create, MailParams $mail): void {
+    $templateId = $mail->int('messageTemplateID');
+    if ($templateId > 0) {
+      $create->addValue('mailtrail.template_id', $templateId);
+    }
+    $contributionId = $mail->tokenContext()->int('contributionId');
+    if ($contributionId > 0) {
+      $create->addValue('source_record_id', $contributionId);
+    }
   }
 
 }

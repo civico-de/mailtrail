@@ -105,11 +105,10 @@ class RecorderHeadlessTest extends TestCase implements HeadlessInterface, Transa
   }
 
   /**
-   * @return list<array<string, mixed>>
+   * @return list<array<mixed>>
    */
   private function activities(int $contactId): array {
-    /** @var list<array<string, mixed>> $rows */
-    return \Civi\Api4\Activity::get(checkPermissions: FALSE)
+    $result = \Civi\Api4\Activity::get(checkPermissions: FALSE)
       ->addSelect(
         'subject',
         'details',
@@ -120,8 +119,13 @@ class RecorderHeadlessTest extends TestCase implements HeadlessInterface, Transa
       )
       ->addWhere('activity_type_id:name', '=', 'Email')
       ->addWhere('target_contact_id', 'CONTAINS', $contactId)
-      ->execute()
-      ->getArrayCopy();
+      ->execute();
+    $rows = [];
+    foreach ($result as $row) {
+      static::assertIsArray($row);
+      $rows[] = $row;
+    }
+    return $rows;
   }
 
   /**
