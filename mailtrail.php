@@ -4,9 +4,7 @@ declare(strict_types = 1);
 
 // Loaded before PHPUnit starts coverage.
 // @codeCoverageIgnoreStart
-// phpcs:disable PSR1.Files.SideEffects
 require_once 'mailtrail.civix.php';
-// phpcs:enable
 // @codeCoverageIgnoreEnd
 
 /**
