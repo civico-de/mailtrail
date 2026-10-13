@@ -20,9 +20,24 @@ parameters:
 	# Error waiting for the one path that reads it before writing it; APIv4
 	# action parameters are exempted by the package's properties extension.
 	checkUninitializedProperties: true
+	# The whole repository, so a directory added later is analysed without an
+	# edit here; phpstan has no optional entries in paths.
 	paths:
-		- Civi
-		- mailtrail.php
+		- .
+	excludePaths:
+		analyse:
+			# civix-generated; BAO/ is not — civix only seeds it, the logic is the repo's
+			- CRM/*/DAO/*
+			- mailtrail.civix.php
+			- mixin (?)
+			# phpstan-tests.neon.dist analyses the suite in a second pass
+			- tests (?)
+		analyseAndScan:
+			- phpstanBootstrap.php
+			- vendor (?)
+			- node_modules (?)
+			- build (?)
+			- .civikitchen-siblings (?)
 	scanFiles:
 		- mailtrail.civix.php
 	# scanDirectories:
