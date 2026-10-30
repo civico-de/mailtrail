@@ -14,3 +14,7 @@ policy:
   # carries only the civix lifecycle delegates.
   hook_style: listener
   renovate_preset: github>civico-de/renovate
+
+  untagged_versions:
+    - version: "0.1.0"
+      reason: shipped to an instance from the checkout before the release workflow existed; first release is 0.1.1
