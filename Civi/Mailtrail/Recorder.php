@@ -10,13 +10,20 @@ namespace Civi\Mailtrail;
  * can select on, the sending template in mailtrail.template_id and, when the
  * mail carried one, the contribution in source_record_id.
  *
- * Skipped: mails without a contact (system notifications), and mails from
- * core's "Send an Email" screen, which creates its own activity. CiviMail bulk
- * deliveries never pass through hook_civicrm_postEmailSend.
+ * Skipped: mails without a contact (system notifications), mails whose To
+ * addresses do not belong to that contact (alternate reminder recipients,
+ * admin alerts reusing a contact's parameters), and mails for which core
+ * records its own Email activity (the "Send an Email" screen, CiviCase activity
+ * copies). CiviMail bulk deliveries never pass through hook_civicrm_postEmailSend.
  */
 class Recorder {
 
   public const CORE_ACTIVITY_SENDER = 'Activity Email Sender';
+
+  /**
+   * Workflows after whose send core creates its own Email activity.
+   */
+  public const CORE_ACTIVITY_WORKFLOWS = ['case_activity'];
 
   /**
    * @param array<string, mixed> $params CRM_Utils_Mail::send() parameters.
@@ -25,7 +32,12 @@ class Recorder {
   public static function record(array $params): int {
     $mail = new MailParams($params);
     $contactId = self::contactId($mail);
-    if ($contactId <= 0 || $mail->string('groupName') === self::CORE_ACTIVITY_SENDER) {
+    if (
+      $contactId <= 0
+      || $mail->string('groupName') === self::CORE_ACTIVITY_SENDER
+      || in_array($mail->string('workflow'), self::CORE_ACTIVITY_WORKFLOWS, TRUE)
+      || !Recipient::isContact($contactId, $mail->string('toEmail'))
+    ) {
       return 0;
     }
     $create = \Civi\Api4\Activity::create(checkPermissions: FALSE)
@@ -66,6 +78,25 @@ class Recorder {
   }
 
   /**
+   * The explicit template id, else the default template of the workflow.
+   */
+  private static function templateId(MailParams $mail): int {
+    $templateId = $mail->int('messageTemplateID');
+    $workflow = $mail->string('workflow');
+    if ($templateId > 0 || $workflow === '') {
+      return $templateId;
+    }
+    $row = \Civi\Api4\MessageTemplate::get(checkPermissions: FALSE)
+      ->addSelect('id')
+      ->addWhere('workflow_name', '=', $workflow)
+      ->addWhere('is_default', '=', TRUE)
+      ->addWhere('is_reserved', '=', FALSE)
+      ->execute()
+      ->first();
+    return (new MailParams(is_array($row) ? $row : []))->int('id');
+  }
+
+  /**
    * The text part, or the HTML part converted when the mail has no text.
    */
   private static function plainText(MailParams $mail): string {
@@ -78,7 +109,7 @@ class Recorder {
   }
 
   private static function addOptionalReferences(\Civi\Api4\Generic\DAOCreateAction $create, MailParams $mail): void {
-    $templateId = $mail->int('messageTemplateID');
+    $templateId = self::templateId($mail);
     if ($templateId > 0) {
       $create->addValue('mailtrail.template_id', $templateId);
     }

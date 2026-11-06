@@ -27,7 +27,8 @@ Attachments, headers and the HTML part are not stored.
 ## What is not recorded
 
 - Mails without a recipient contact, such as system notifications and alerts to administrators.
-- Mails from CiviCRM's "Send an Email" screen. CiviCRM already records those as activities.
+- Mails sent to an address that does not belong to the contact. A scheduled reminder that goes to other recipients than the contact it is about is an example.
+- Mails from CiviCRM's "Send an Email" screen and copies of case activities. CiviCRM already records those as activities.
 - CiviMail mailings. They keep their own delivery reports.
 
 ## Requirements

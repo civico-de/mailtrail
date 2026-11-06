@@ -12,7 +12,7 @@ mailtrail ergänzt Aktivitäten um die Feldgruppe „Mail Trail“ (API-Name `ma
 | Feld | API-Name | Typ | Inhalt |
 |---|---|---|---|
 | Recorded by Mail Trail | `mailtrail.recorded` | Ja/Nein | Immer „Ja“ bei Aktivitäten, die mailtrail angelegt hat. Das Auswahlkriterium für Aufbewahrungsregeln und Suchen. |
-| Message template ID | `mailtrail.template_id` | Zahl | Die ID der Nachrichtenvorlage, aus der die Mail erzeugt wurde. Leer bei Mails ohne Vorlage. |
+| Message template ID | `mailtrail.template_id` | Zahl | Die ID der Nachrichtenvorlage, aus der die Mail erzeugt wurde. Bei einer Mail aus einem Workflow, etwa einer Zuwendungsbestätigung, ist es die Standardvorlage des Workflows. Leer bei Mails ohne Vorlage. |
 
 Beide Felder sind durchsuchbar. Eine SearchKit-Suche kann so etwa alle Bestätigungen auflisten, die mit einer bestimmten Vorlage verschickt wurden.
 

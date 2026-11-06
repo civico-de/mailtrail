@@ -27,7 +27,8 @@ Anhänge, Kopfzeilen und der HTML-Teil werden nicht gespeichert.
 ## Was nicht festgehalten wird
 
 - Mails ohne Empfänger-Kontakt, etwa Systembenachrichtigungen und Hinweise an Administratoren.
-- Mails aus der CiviCRM-Maske „E-Mail senden“. Die hält CiviCRM bereits selbst als Aktivität fest.
+- Mails an eine Adresse, die nicht zum Kontakt gehört. Ein Beispiel ist eine geplante Erinnerung, die an andere Empfänger geht als an den Kontakt, um den es geht.
+- Mails aus der CiviCRM-Maske „E-Mail senden“ und Kopien von Fallaktivitäten. Die hält CiviCRM bereits selbst als Aktivität fest.
 - CiviMail-Mailings. Sie haben ihre eigenen Versandberichte.
 
 ## Voraussetzungen

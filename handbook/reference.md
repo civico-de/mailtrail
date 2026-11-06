@@ -12,7 +12,7 @@ mailtrail adds the custom field group "Mail Trail" (API name `mailtrail`) to act
 | Field | API name | Type | Content |
 |---|---|---|---|
 | Recorded by Mail Trail | `mailtrail.recorded` | Yes/No | Always yes on activities mailtrail created. The selector for retention policies and searches. |
-| Message template ID | `mailtrail.template_id` | Number | The id of the message template the mail was rendered from. Empty for mails without a template. |
+| Message template ID | `mailtrail.template_id` | Number | The id of the message template the mail was rendered from. For a mail sent by workflow, such as a contribution receipt, it is the workflow's default template. Empty for mails without a template. |
 
 Both fields are searchable, so a SearchKit search can list, for example, every receipt sent with a given template.
 

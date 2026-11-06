@@ -16,8 +16,8 @@ Documentation: https://civico-de.github.io/mailtrail/
   `details` set to the plain-text body (HTML-only mails are converted), the contact as
   target, and the logged-in user as source (or the contact, when sent by a job).
 - Marks each activity with the managed custom fields `mailtrail.recorded` (always true)
-  and `mailtrail.template_id` (the originating `MessageTemplate` id, when the mail had
-  one), and stores a contribution id from the token context in `source_record_id`.
+  and `mailtrail.template_id` (the originating `MessageTemplate` id: the explicit one, or
+  the workflow's default template for mails sent by workflow name), and stores a contribution id from the token context in `source_record_id`.
 - Provides `Recorder::sentSince($contactId, $templateId, $since)` in the class
   `\Civi\Mailtrail\Recorder` for senders that must not remind too often. The activity log
   is the marker, so no separate bookkeeping is needed.
@@ -25,6 +25,10 @@ Documentation: https://civico-de.github.io/mailtrail/
 ## What it skips
 
 - Mails without a contact id, such as system notifications and admin alerts.
+- Mails whose To addresses do not belong to that contact. Core passes the triggering
+  contact's id also for scheduled reminders to alternate recipients and for the
+  on-behalf-of duplicate alert to the contribution page's sender address.
+- CiviCase activity copies (workflow `case_activity`). Core records those itself.
 - Mails from core's "Send an Email" screen (`groupName` is Activity Email Sender). Core
   already creates that activity.
 - CiviMail bulk mailings. They never pass through `postEmailSend` and keep their own

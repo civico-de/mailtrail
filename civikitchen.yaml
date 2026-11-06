@@ -6,10 +6,10 @@ policy:
   license: AGPL-3.0-or-later
   copyright: 'civico GmbH'
 
-  # Floor = measured value (ckcoverage, 88 %) minus one; uncovered are the
+  # Floor = measured value (ckcoverage, 94 %) minus one; uncovered are the
   # listener's catch branch and non-scalar param fallbacks. Raise, never lower.
   coverage:
-    minimum: 87
+    minimum: 93
 
   # The one business hook (postEmailSend) is a scan class; mailtrail.php
   # carries only the civix lifecycle delegates.
