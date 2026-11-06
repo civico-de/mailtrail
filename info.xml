@@ -16,8 +16,8 @@
     <url desc="Documentation">https://github.com/civico-de/mailtrail</url>
     <url desc="Support">https://github.com/civico-de/mailtrail/issues</url>
   </urls>
-  <releaseDate>2026-10-30</releaseDate>
-  <version>0.1.1</version>
+  <releaseDate>2026-11-06</releaseDate>
+  <version>0.2.0</version>
   <develStage>alpha</develStage>
   <compatibility mode="semver">
     <ver>6.15</ver>
