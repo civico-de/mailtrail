@@ -1,8 +1,9 @@
 $schema: https://raw.githubusercontent.com/civico-de/civikitchen/main/packages/civikitchen-scenario-schema/scenario.schema.json
 version: 1
 policy:
-  license: Proprietary
-  npm_license: UNLICENSED
+  # Expected values for ckconform (the checker lives in the public civikitchen
+  # image; these values are ours).
+  license: AGPL-3.0-or-later
   copyright: 'civico GmbH'
 
   # Floor = measured value (ckcoverage, 88 %) minus one; uncovered are the

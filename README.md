@@ -64,3 +64,7 @@ cd .docker && docker compose up -d   # CiviCRM :8084, maildev :1084
 docker compose exec -u www-data app bash -c 'cd /var/www/html/ext/mailtrail \
   && ckphpunit && phpstan analyse && cklint --all && ckconform'
 ```
+
+## License and support
+
+AGPL-3.0-or-later. © civico GmbH. See [LICENSE.txt](LICENSE.txt). Report bugs in the [issue tracker](https://github.com/civico-de/mailtrail/issues). Report security issues by email to security@civico.de, not in a public issue; see [SECURITY.md](SECURITY.md).

@@ -3,11 +3,11 @@
   <file>mailtrail</file>
   <name>Mail Trail</name>
   <description>Records every e-mail CiviCRM sends to a contact as an Email activity with subject and plain-text body, tagged with the message template it came from.</description>
-  <license>Proprietary</license>
+  <license>AGPL-3.0-or-later</license>
   <authors>
     <author>
-      <name>Johannes Filter</name>
-      <email>hi@jfilter.de</email>
+      <name>Johannes Filter (civico GmbH)</name>
+      <email>johannes@civico.de</email>
       <role>Maintainer</role>
     </author>
   </authors>

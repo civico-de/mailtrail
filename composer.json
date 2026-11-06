@@ -2,7 +2,7 @@
   "name": "civico-de/mailtrail",
   "description": "Records every e-mail CiviCRM sends to a contact as an Email activity with subject, plain-text body and the originating message template.",
   "type": "civicrm-ext",
-  "license": "proprietary",
+  "license": "AGPL-3.0-or-later",
   "require": {
     "php": ">=8.2"
   },
