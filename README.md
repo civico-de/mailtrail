@@ -6,6 +6,8 @@ scheduled reminders, extension mails, anything that goes through `CRM_Utils_Mail
 with a contact, shows up in the contact's activity tab. Staff can see what went out and
 when.
 
+Documentation: https://civico-de.github.io/mailtrail/
+
 ## What it does
 
 - Listens to `hook_civicrm_postEmailSend`, which core fires after the mailer accepted the
