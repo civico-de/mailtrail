@@ -1,7 +1,7 @@
 # mailtrail
 
 CiviCRM extension that records every e-mail sent to a contact as an Email
-activity (subject + plain-text body + originating message template). The
+activity (subject + text body + originating message template). The
 README is the behavioral spec; keep code and README in lockstep.
 
 ## Work in this repository
@@ -10,13 +10,12 @@ README is the behavioral spec; keep code and README in lockstep.
   `hook_civicrm_postEmailSend`, which core fires after the mailer accepted the
   message. Do not move recording into `alterMailParams` — a mail that failed
   to send must not appear in the contact's history.
-- **Text only:** `details` holds the plain-text body (HTML-only mails are
-  converted). No HTML, no attachments, no headers.
+- **Text only:** `details` holds the text body, HTML-escaped with `<br />` for
+  line breaks (HTML-only mails are converted first). No attachments, no headers.
 - **Never throw into the sender:** a recording failure is logged; the mail is
   already out.
-- **No own retention code.** `mailtrail.recorded` is the selector; clearing
-  old bodies is a [sunset](https://github.com/civico-de/sunset) policy (README
-  "Retention"). Do not add a pruning job here.
+- **No own retention code.** `mailtrail.recorded` is the selector for an
+  external retention job (handbook "Retention"). Do not add a pruning job here.
 - `Recorder::sentSince()` is the public marker API for consumers that must not
   remind too often. Keep both custom fields managed (`cleanup: always`) so
   uninstall removes them.

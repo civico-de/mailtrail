@@ -17,7 +17,7 @@ Für jede Mail legt mailtrail eine Aktivität an:
 | Aktivitätstyp | E-Mail |
 | Status | Abgeschlossen |
 | Betreff | Der Betreff der Mail |
-| Details | Der Text der Mail. Eine Mail, die nur einen HTML-Teil hat, wird in Text umgewandelt. |
+| Details | Der Text der Mail mit seinen Zeilenumbrüchen. Eine Mail, die nur einen HTML-Teil hat, wird zuerst in Text umgewandelt. |
 | Mit Kontakt | Der Empfänger |
 | Hinzugefügt von | Der angemeldete Benutzer, oder der Empfänger, wenn niemand angemeldet ist, etwa bei geplanten Jobs und öffentlichen Formularen |
 | Nachrichtenvorlagen-ID | Die Nachrichtenvorlage, aus der die Mail erzeugt wurde, sofern es eine gab |
@@ -33,7 +33,7 @@ Anhänge, Kopfzeilen und der HTML-Teil werden nicht gespeichert.
 
 ## Voraussetzungen
 
-mailtrail braucht keine andere Extension. Um alte Mailtexte zu leeren oder zu löschen, installieren Sie [sunset](https://github.com/civico-de/sunset), siehe [Aufbewahrung](retention.md). Die unterstützten CiviCRM- und PHP-Versionen stehen in der `info.xml` der Extension.
+mailtrail braucht keine andere Extension. Wie Sie alte Mailtexte leeren oder löschen, steht unter [Aufbewahrung](retention.md). Die unterstützten CiviCRM- und PHP-Versionen stehen in der `info.xml` der Extension.
 
 ## Installation
 

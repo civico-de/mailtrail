@@ -17,7 +17,7 @@ For each mail, mailtrail creates one activity:
 | Activity type | Email |
 | Status | Completed |
 | Subject | The subject of the mail |
-| Details | The plain-text body. A mail with only an HTML part is converted to text. |
+| Details | The text of the mail, with its line breaks kept. A mail with only an HTML part is converted to text first. |
 | With contact | The recipient |
 | Added by | The logged-in user, or the recipient when nobody is logged in, as with scheduled jobs and public forms |
 | Message template ID | The message template the mail was rendered from, when it had one |
@@ -33,7 +33,7 @@ Attachments, headers and the HTML part are not stored.
 
 ## Requirements
 
-mailtrail needs no other extension. To clear or delete old mail bodies, install [sunset](https://github.com/civico-de/sunset), see [Retention](retention.md). The supported CiviCRM and PHP versions are listed in the extension's `info.xml`.
+mailtrail needs no other extension. To clear or delete old mail bodies, see [Retention](retention.md). The supported CiviCRM and PHP versions are listed in the extension's `info.xml`.
 
 ## Install
 

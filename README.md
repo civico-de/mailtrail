@@ -1,7 +1,7 @@
 # mailtrail
 
 Records every e-mail CiviCRM sends to a contact as an Email activity on that contact:
-subject, plain-text body, and the message template it was rendered from. Receipts,
+subject, text body, and the message template it was rendered from. Receipts,
 scheduled reminders, extension mails, anything that goes through `CRM_Utils_Mail::send()`
 with a contact, shows up in the contact's activity tab. Staff can see what went out and
 when.
@@ -13,8 +13,9 @@ Documentation: https://civico-de.github.io/mailtrail/
 - Listens to `hook_civicrm_postEmailSend`, which core fires after the mailer accepted the
   message. Mails that failed to send are not recorded.
 - Creates one activity per mail: type Email, status Completed, `subject` from the mail,
-  `details` set to the plain-text body (HTML-only mails are converted), the contact as
-  target, and the logged-in user as source (or the contact, when sent by a job).
+  `details` set to the text body, HTML-escaped with line breaks as `<br />` (HTML-only mails
+  are converted to text first), the contact as target, and the logged-in user as source (or
+  the contact, when sent by a job).
 - Marks each activity with the managed custom fields `mailtrail.recorded` (always true)
   and `mailtrail.template_id` (the originating `MessageTemplate` id: the explicit one, or
   the workflow's default template for mails sent by workflow name), and stores a contribution id from the token context in `source_record_id`.
@@ -36,25 +37,14 @@ Documentation: https://civico-de.github.io/mailtrail/
 
 ## Retention
 
-Bodies of transactional mails are personal data with a short useful life. mailtrail does
-not delete anything itself. It marks its activities so a
-[sunset](https://github.com/civico-de/sunset) policy can. This example clears the text
-after two years and keeps subject and date:
-
-| Field | Value |
-| --- | --- |
-| `target_entity` | `Activity` |
-| `target_filter` | `[["mailtrail.recorded","=",true]]` |
-| `age_field` | `activity_date_time` |
-| `retention_days` | `730` |
-| `action` | `clear_fields` |
-| `action_params` | `{"fields":["details"]}` |
-
-Preview with sunset's dry run before switching the policy live. To drop the whole activity
-instead, use the action `delete`. Then `sentSince()` forgets the send too, so keep
-`retention_days` above the longest reminder interval.
+mailtrail deletes nothing itself. `mailtrail.recorded` selects exactly its activities, so a
+retention job can clear or delete old bodies without touching any others. The
+[handbook](https://civico-de.github.io/mailtrail/retention/) shows the APIv4 calls.
 
 ## Install
+
+Download the zip from the [releases page](https://github.com/civico-de/mailtrail/releases),
+unpack it into the extensions directory and enable it:
 
 ```bash
 cv ext:enable mailtrail

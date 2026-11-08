@@ -7,21 +7,20 @@ order: 10
 
 Mailtexte sind personenbezogene Daten, die nur kurz gebraucht werden. mailtrail löscht selbst nie etwas. Es markiert jede Aktivität, die es anlegt, mit dem Feld „Recorded by Mail Trail“. Eine Aufbewahrungsregel kann so genau diese Aktivitäten auswählen und alle anderen unberührt lassen.
 
-## Alte Texte mit sunset leeren
+## Alte Texte leeren
 
-Die Extension [sunset](https://github.com/civico-de/sunset) wendet solche Regeln an. Diese Regel leert nach zwei Jahren den Text festgehaltener Mails und behält Betreff und Datum:
+Jeder Job, der einen APIv4-Aufruf ausführen kann, kann eine solche Regel anwenden, zum Beispiel ein geplanter Job oder ein Cron-Eintrag, der `cv` aufruft. Vorher zeigt dieser Aufruf, welche Aktivitäten die Regel trifft:
 
-| Feld | Wert |
-|---|---|
-| `target_entity` | `Activity` |
-| `target_filter` | `[["mailtrail.recorded","=",true]]` |
-| `age_field` | `activity_date_time` |
-| `retention_days` | `730` |
-| `action` | `clear_fields` |
-| `action_params` | `{"fields":["details"]}` |
+```bash
+cv api4 Activity.get +s id +w 'mailtrail.recorded=1' +w 'activity_date_time<"-2 years"'
+```
 
-Prüfen Sie die Regel mit dem Probelauf von sunset, bevor Sie sie scharf schalten.
+Dieser Aufruf leert dann den Text festgehaltener Mails, die älter als zwei Jahre sind, und behält Betreff und Datum:
+
+```bash
+cv api4 Activity.update +w 'mailtrail.recorded=1' +w 'activity_date_time<"-2 years"' +v 'details='
+```
 
 ## Löschen statt leeren
 
-Um die ganze Aktivität zu entfernen, nehmen Sie stattdessen die Aktion `delete`. Ein Absender, der mailtrail fragt, ob eine Vorlage schon verschickt wurde (siehe [Referenz](reference.md)), sieht die gelöschten Mails dann nicht mehr. Halten Sie `retention_days` größer als den längsten Zeitraum, auf den ein solcher Absender zurückblickt.
+Um die ganze Aktivität zu entfernen, führen Sie `Activity.delete` mit denselben Bedingungen aus. Ein Absender, der mailtrail fragt, ob eine Vorlage schon verschickt wurde (siehe [Referenz](reference.md#wurde-eine-vorlage-kürzlich-verschickt)), sieht die gelöschten Mails dann nicht mehr. Halten Sie das Alter größer als den längsten Zeitraum, auf den ein solcher Absender zurückblickt.
