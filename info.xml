@@ -20,7 +20,7 @@
   <version>0.2.1</version>
   <develStage>alpha</develStage>
   <compatibility mode="semver">
-    <ver>6.15</ver>
+    <ver>6.16</ver>
   </compatibility>
   <php_compatibility mode="list">
     <ver>8.2</ver>
