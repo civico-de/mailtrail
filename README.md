@@ -1,3 +1,5 @@
+![mailtrail: receipts, scheduled reminders and extension mails become Email activities](handbook/images/cover.png)
+
 # mailtrail
 
 Records every e-mail CiviCRM sends to a contact as an Email activity on that contact:
