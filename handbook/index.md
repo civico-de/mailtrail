@@ -6,6 +6,8 @@ title: mailtrail
 
 ![mailtrail: receipts, scheduled reminders and extension mails become Email activities](images/cover.png)
 
+> **Status: alpha.** Settings, APIs and stored data can still change between releases. Try it on a test site before you use it in production.
+
 mailtrail records every e-mail CiviCRM sends to a contact as an Email activity on that contact. Receipts, event confirmations, scheduled reminders and mails sent by other extensions then show up in the contact's activity tab with subject, date and plain-text body. Staff can see what went out and when, without asking the mail server.
 
 ## What is recorded

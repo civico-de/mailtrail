@@ -2,6 +2,8 @@
 
 # mailtrail
 
+> **Status: alpha.** Settings, APIs and stored data can still change between releases. Try it on a test site before you use it in production.
+
 Records every e-mail CiviCRM sends to a contact as an Email activity on that contact:
 subject, text body, and the message template it was rendered from. Receipts,
 scheduled reminders, extension mails, anything that goes through `CRM_Utils_Mail::send()`

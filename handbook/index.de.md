@@ -6,6 +6,8 @@ title: mailtrail
 
 ![mailtrail: Bestätigungen, geplante Erinnerungen und Mails von Extensions werden zu E-Mail-Aktivitäten](images/cover.png)
 
+> **Status: Alpha.** Einstellungen, APIs und gespeicherte Daten können sich zwischen Releases noch ändern. Probieren Sie die Extension auf einer Testsite aus, bevor Sie sie produktiv einsetzen.
+
 mailtrail hält jede E-Mail, die CiviCRM an einen Kontakt verschickt, als E-Mail-Aktivität bei diesem Kontakt fest. Zuwendungsbestätigungen, Veranstaltungsbestätigungen, geplante Erinnerungen und Mails anderer Extensions erscheinen dann im Aktivitäten-Reiter des Kontakts, mit Betreff, Datum und Text. Das Team sieht, was wann hinausging, ohne den Mailserver fragen zu müssen.
 
 ## Was festgehalten wird
