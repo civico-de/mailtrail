@@ -1,4 +1,4 @@
-![mailtrail: receipts, scheduled reminders and extension mails become Email activities](handbook/images/cover.png)
+![mailtrail: receipts, scheduled reminders and extension mails become Email activities](docs/handbook/images/cover.png)
 
 # mailtrail
 
